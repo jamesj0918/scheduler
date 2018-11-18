@@ -1,4 +1,4 @@
-# myproject
+# Schedule
 
 ## Project setup
 ```
