@@ -1,4 +1,4 @@
-# Schedule
+# Scheduler
 
 ## Project setup
 ```
