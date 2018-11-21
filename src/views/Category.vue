@@ -79,7 +79,7 @@
         name: "Category",
         methods:{
             gotoCategory(name){
-                this.$router.push('/'+name);
+                this.$router.push('/result/'+name);
             }
         }
 

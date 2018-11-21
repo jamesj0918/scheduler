@@ -5,7 +5,7 @@
                     @change="handleChange"
                     :active-index="activeIndex"
             >
-                <sui-tab-pane  icon="search grey">
+                <sui-tab-pane  icon="search grey" title="">
                     <div class="pane">
                         <div id="inputFormWrap">
                             <div id="inputForm">
@@ -15,19 +15,7 @@
                         </div>
                         <div id="searchResultWrap">
                             <ul>
-                                <li v-for="subject in subjects" id="item">
-                                    <div id="subjectWrap">
-                                        <div id="title">
-                                            <h3>{{subject.title}}</h3>
-                                        </div>
-                                        <div id="info">
-                                            {{subject.professor}}, {{subject.classroom}}
-                                        </div>
-                                    </div>
-                                    <div id="buttonWrap">
-                                        <i id="addButton" class="ui plus large circle grey icon"></i>
-                                    </div>
-                                </li>
+
                             </ul>
 
 
@@ -40,7 +28,7 @@
 
 
                 </sui-tab-pane>
-                <sui-tab-pane class="pane" icon="tags grey">
+                <sui-tab-pane class="pane" icon="tags grey" title="">
                     <div id="routerWrap">
                         <router-view id="router"></router-view>
                     </div>
@@ -53,6 +41,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name: 'FormTable',
         data: () => ({
@@ -61,33 +50,15 @@
                 index: null,
                 title: null,
             },
-            subjects:[
-                {
-                    uuid: "003353",
-                    title: "통계학개론",
-                    point: 3.0,
-                    category: "수학",
-                    department: "대양휴머니티칼리지",
-                    classroom: "광711",
-                    professor: "송재욱",
-                    timetable: [
-                        {
-                            day: "월",
-                            start: "10:30:00",
-                            end: "12:00:00"
-                        },
-                        {
-                            day: "수",
-                            start: "10:30:00",
-                            end: "12:00:00"
-                        }
-                    ]
-                }
-            ],
+            subject:[],
             activeIndex: null,
         }),
         mounted() {
             this.activatePane(0);
+            axios.get("search/")
+                .then((response)=>{
+                    console.log(response);
+                })
         },
         methods: {
             activatePane(index) {

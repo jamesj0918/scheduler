@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import Category from'./views/Category.vue'
 import SubjectList from './views/SubjectList.vue'
 
+import InputLayout from './Input/InputLayout'
+
 Vue.use(Router);
 
 export default new Router({
@@ -11,7 +13,12 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-            path: '/',
+          path: '/',
+          name: 'InputLayout',
+          component: InputLayout,
+        },
+        {
+            path: '/result',
             name: 'home',
             component: Home,
             children:[
