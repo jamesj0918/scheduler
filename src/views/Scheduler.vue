@@ -63,10 +63,10 @@
         &__dots{
 
             display: inline-block;
-            width: 500px;
+            width: 100%;
 
             text-align: center;
-            margin-left: 50px;
+            margin-left: 20px;
             padding: 0 auto;
             bottom: 0;
         }

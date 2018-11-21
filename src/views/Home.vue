@@ -1,22 +1,22 @@
 <template>
-  <div id="homeWrap">
+    <div id="homeWrap">
 
-      <scheduler id="scheduler"></scheduler>
-      <search-form id="searchForm"></search-form>
-  </div>
+        <scheduler id="scheduler"></scheduler>
+        <search-form id="searchForm"></search-form>
+    </div>
 </template>
 
 <script>
     import Scheduler from './Scheduler'
     import SearchForm from './SearchForm'
-// @ is an alias to /src
-export default {
-  name: 'home',
-  components: {
-      'scheduler' : Scheduler,
-      'search-form': SearchForm
-  }
-}
+    // @ is an alias to /src
+    export default {
+        name: 'home',
+        components: {
+            'scheduler' : Scheduler,
+            'search-form': SearchForm
+        }
+    }
 </script>
 
 <style scoped>
