@@ -1,11 +1,12 @@
 <template>
-    <div>
-        <div id="tabWrap">
+    <div id="tabWrap">
             <sui-tab
+                    id="tab"
                     @change="handleChange"
-                    :active-index="activeIndex"
-            >
-                <sui-tab-pane  icon="search grey" title="">
+                    :active-index="activeIndex">
+                <sui-tab-pane
+                        icon="search grey"
+                        title="">
                     <div class="pane">
                         <div id="inputFormWrap">
                             <div id="inputForm">
@@ -17,13 +18,7 @@
                             <ul>
 
                             </ul>
-
-
-
-
                         </div>
-
-
                     </div>
 
 
@@ -34,8 +29,6 @@
                     </div>
                 </sui-tab-pane>
             </sui-tab>
-
-        </div>
 
     </div>
 </template>
@@ -79,17 +72,18 @@
         margin: 0;
         padding: 0;
     }
-    #tabWrap{
-        padding-top: 10vh;
-        justify-content:center;
-        align-items:center
 
+    #tab{
+        width: 80%;
+        height: 100%;
+        margin: auto;
+        padding-top: 10%;
+        border: 1px solid;
     }
 
     #inputFormWrap{
         padding-top: 20px;
     }
-
     #inputForm{
 
         border-radius: 15px;
@@ -118,7 +112,6 @@
         justify-content:center;
         align-items:center;
     }
-
     #searchResultWrap{
         width: 100%;
         margin-top: 10px;
