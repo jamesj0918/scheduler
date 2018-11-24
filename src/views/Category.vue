@@ -1,88 +1,48 @@
 <template>
-    <div id="categoryWrap">
-
-        <div class="item">
-            <div class="title">
-                인문
-            </div>
-            <div class="categoryInfo">
-                <div class="num">100개의 강의</div>
-                <div class="iconWrap" @click="gotoCategory('인문')"> <i class="angle right large grey icon"></i></div>
-            </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="item">
-            <div class="title">
-                인문
-            </div>
-            <div class="categoryInfo">
-                <div class="num">100개의 강의</div>
-                <div class="iconWrap"> <i class="angle right large grey icon"></i></div>
+    <div>
+        <div id="categoryWrap" >
+            <div v-for="category in categories" :key="category">
+                <div class="item" >
+                    <div class="title">
+                        {{category}}
+                    </div>
+                    <div class="categoryInfo">
+                        <div class="num" @>100개의 강의</div>
+                        <div class="iconWrap" @click="link_subcategory(category)"> <i class="angle right large grey icon"></i></div>
+                    </div>
+                </div>
+                <div class="ui divider"></div>
             </div>
         </div>
-        <div class="ui divider"></div>
-        <div class="item">
-            <div class="title">
-                인문
-            </div>
-            <div class="categoryInfo">
-                <div class="num">100개의 강의</div>
-                <div class="iconWrap"> <i class="angle right large grey icon"></i></div>
-            </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="item">
-            <div class="title">
-                인문
-            </div>
-            <div class="categoryInfo">
-                <div class="num">100개의 강의</div>
-                <div class="iconWrap"> <i class="angle right large grey icon"></i></div>
-            </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="item">
-            <div class="title">
-                인문
-            </div>
-            <div class="categoryInfo">
-                <div class="num">100개의 강의</div>
-                <div class="iconWrap"> <i class="angle right large grey icon"></i></div>
-            </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="item">
-            <div class="title">
-                인문
-            </div>
-            <div class="categoryInfo">
-                <div class="num">100개의 강의</div>
-                <div class="iconWrap"> <i class="angle right large grey icon"></i></div>
-            </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="item">
-            <div class="title">
-                수학
-            </div>
-            <div class="categoryInfo">
-                <div class="num">100개의 강의</div>
-                <div class="iconWrap" @click="gotoCategory('수학')"> <i class="angle right large grey icon"></i></div>
-            </div>
-        </div>
-        <div class="ui divider"></div>
     </div>
 </template>
 
 <script>
     export default {
         name: "Category",
+        data(){
+            return{
+                categories:[
+                    '상경계',
+                    '인문학',
+                    '사회과학',
+                    '국방/군사/경찰',
+                    '과학/공학',
+                    '예술',
+                    '언어',
+                    '진로',
+                    '취미/생활',
+                ]
+            }
+        },
         methods:{
-            gotoCategory(name){
-                this.$router.push('/result/'+name);
+            link_subcategory(subcategory){
+                if (subcategory.indexOf("/") !== -1) {
+                    subcategory = subcategory.replace("/", "_").replace("/", "_");
+                }
+                this.$router.push('/result/' + subcategory);
             }
         }
-
     }
 </script>
 
@@ -94,7 +54,6 @@
     #categoryWrap{
         width: 100%;
         height: 45vh;
-        overflow-y: scroll;
     }
     .divider{
         width: 100%;
@@ -102,7 +61,6 @@
         padding: 0;
     }
     .divider:last-child{
-        display: none;
     }
     .categoryInfo{
         height: 100%;
