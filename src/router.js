@@ -5,6 +5,8 @@ import Category from'./views/Category.vue'
 import SubjectList from './views/SubjectList.vue'
 
 import InputLayout from './Input/InputLayout'
+import Subcategory from "./views/Subcategory";
+import  SubcategoryLayout from "./views/SubcategoryLayout"
 
 Vue.use(Router);
 
@@ -13,9 +15,9 @@ export default new Router({
     base: process.env.BASE_URL,
     routes: [
         {
-          path: '/',
-          name: 'InputLayout',
-          component: InputLayout,
+            path: '/',
+            name: 'InputLayout',
+            component: InputLayout,
         },
         {
             path: '/result',
@@ -24,16 +26,27 @@ export default new Router({
             children:[
                 {
                     path:'',
-                    name: 'category',
+                    name:'category_list',
                     component: Category,
                 },
                 {
-                    path:':categoryName',
-                    name: 'subjectlist',
-                    component: SubjectList,
-                }
+                    path:':category',
+                    name:'category',
+                    component:SubcategoryLayout,
+                    children:[
+                        {
+                            path: '',
+                            name: 'subcategory_list',
+                            component: Subcategory,
+                        },
+                        {
+                            path:':subcategory',
+                            name: 'subject_list',
+                            component: SubjectList,
+                        }
+                    ]
+                },
             ]
         },
-
     ]
 })
