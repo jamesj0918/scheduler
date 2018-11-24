@@ -20,8 +20,6 @@
                             </ul>
                         </div>
                     </div>
-
-
                 </sui-tab-pane>
                 <sui-tab-pane class="pane" icon="tags grey" title="">
                     <div id="routerWrap">
@@ -29,7 +27,6 @@
                     </div>
                 </sui-tab-pane>
             </sui-tab>
-
     </div>
 </template>
 

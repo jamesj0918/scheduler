@@ -1,6 +1,5 @@
 <template>
     <div id="homeWrap">
-
         <scheduler id="scheduler"></scheduler>
         <search-form id="searchForm"></search-form>
     </div>
