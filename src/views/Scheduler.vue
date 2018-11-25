@@ -1,8 +1,6 @@
 <template>
     <div id = "schedulerWrap">
         <!--<time-table id="timeTable"></time-table>-->
-
-
                 <agile class="agile"  :prevArrow="left" :nextArrow="right">
                     <div class="slide slide--1"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
                     <div class="slide slide--2"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
@@ -11,12 +9,7 @@
                     <div class="slide slide--5"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
                     <div class="slide slide--6"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
                 </agile>
-
-
-
         </div>
-
-
 </template>
 
 <script>
