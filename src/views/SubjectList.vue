@@ -45,7 +45,6 @@
             let search_subcategory = this.subcategory.replace("_","/").replace("_","/");
             axios.get('search/?category='+search_category+'&subcategory='+search_subcategory).
                 then((response)=>{
-                    console.log(search_subcategory);
                     this.count = response.data.count;
                     this.subjects = response.data.results;
             })
