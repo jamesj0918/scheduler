@@ -1,7 +1,14 @@
 <template>
     <div>
         <div id="title">
-            <h4>{{category}} > {{subcategory}} {{count}}개의 강의</h4>
+            <h4>
+                {{category}} > {{subcategory}} {{count}}개의 강의
+                <i
+                    style="cursor: pointer"
+                    @click="link_previous()"
+                    class="angle left large grey icon">
+                </i>
+            </h4>
         </div>
         <div class="ui divider"></div>
         <div v-for="(subject, key) in subjects" :key="key">
@@ -34,11 +41,19 @@
             }
         },
         mounted(){
-            axios.get('search/?category='+this.category+'&subcategory='+this.subcategory).
+            const  search_category = this.category.replace("_","/").replace("_","/");
+            let search_subcategory = this.subcategory.replace("_","/").replace("_","/");
+            axios.get('search/?category='+search_category+'&subcategory='+search_subcategory).
                 then((response)=>{
+                    console.log(search_subcategory);
                     this.count = response.data.count;
                     this.subjects = response.data.results;
             })
+        },
+        methods:{
+            link_previous(){
+                this.$router.go(-1);
+            }
         }
     }
 </script>
