@@ -1,13 +1,17 @@
 <template>
     <div>
         <div id="categoryWrap" >
-            <div v-for="category in categories" :key="category">
+            <div v-for="(category, index) in categories" :key="category">
                 <div class="item" >
                     <div class="title">
                         {{category}}
                     </div>
                     <div class="categoryInfo">
-                        <div class="num" @>100개의 강의</div>
+                        <div
+                            v-if="lecture_count[index] !== undefined"
+                            class="num">
+                            {{lecture_count[index].count}}개의 강의
+                        </div>
                         <div class="iconWrap" @click="link_subcategory(category)"> <i class="angle right large grey icon"></i></div>
                     </div>
                 </div>
@@ -18,21 +22,23 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name: "Category",
         data(){
             return{
                 categories:[
-                    '상경계',
                     '인문학',
+                    '언어',
                     '사회과학',
-                    '국방/군사/경찰',
+                    '상경계',
+                    '진로',
                     '과학/공학',
                     '예술',
-                    '언어',
-                    '진로',
                     '취미/생활',
-                ]
+                    '국방/군사/경찰',
+                ],
+                lecture_count:[]
             }
         },
         methods:{
@@ -42,6 +48,13 @@
                 }
                 this.$router.push('/result/' + subcategory);
             }
+        },
+        mounted(){
+            axios.get('category/')
+                .then((response)=>{
+                    this.lecture_count = response.data.results;
+                })
+
         }
     }
 </script>
