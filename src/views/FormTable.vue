@@ -5,6 +5,7 @@
                     @change="handleChange"
                     :active-index="activeIndex">
                 <sui-tab-pane
+                        @click="link_result()"
                         icon="search grey"
                         title="">
                     <div class="pane">
@@ -45,10 +46,6 @@
         }),
         mounted() {
             this.activatePane(0);
-            axios.get("search/")
-                .then((response)=>{
-                    console.log(response);
-                })
         },
         methods: {
             activatePane(index) {
@@ -60,6 +57,10 @@
                 this.table.index = +index;
                 this.table.title = activePane.title;
             },
+            link_result(){
+                alert('asd');
+                this.$router.push('/result');
+            }
         },
     };
 </script>
