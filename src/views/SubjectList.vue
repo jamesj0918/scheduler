@@ -19,7 +19,13 @@
                 <div class="categoryInfo">
                     <div class="num" v-if="subject.classroom">{{subject.classroom}}</div>
                     <div class="num" v-else>온라인</div>
-                    <div class="iconWrap"> <i class="angle right large grey icon"></i></div>
+                    <div  class="timeTable">
+                        <div v-for="timetable in subject.timetable">
+                            {{timetable.day}} {{timetable.start}}~{{timetable.end}}
+                        </div>
+                    </div>
+
+                    <div class="iconWrap" @click="addClass(subject)"> <i class="plus circle large grey icon"></i></div>
                 </div>
             </div>
             <div class="ui divider"></div>
@@ -30,6 +36,7 @@
 
 <script>
     import axios from 'axios'
+
     export default {
         name: "SubjectList",
         data(){
@@ -45,6 +52,7 @@
             let search_subcategory = this.subcategory.replace("_","/").replace("_","/");
             axios.get('search/?category='+search_category+'&subcategory='+search_subcategory).
                 then((response)=>{
+
                     this.count = response.data.count;
                     this.subjects = response.data.results;
             })
@@ -52,6 +60,11 @@
         methods:{
             link_previous(){
                 this.$router.go(-1);
+            },
+            addClass(object){
+                console.log(object);
+                this.$store.dispatch('ADD_CLASS', object);
+                this.$bus.$emit('GET_CLASS');
             }
         }
     }
@@ -84,7 +97,7 @@
     }
     .categoryInfo{
         height: 100%;
-        width:50%;
+        width:60%;
         float: right;
     }
     .item{
@@ -94,11 +107,17 @@
         height: 30px;
         align-items:center;
     }
+    .timeTable{
+        height: 100%;
+        display: inline-block;
+        width: 50%;
+
+    }
 
     .title{
         height: 100%;
         display: flex;
-        width: 50%;
+        width: 40%;
         float: left;
         padding-left: 20px;
         font-size: 15px;
@@ -110,7 +129,7 @@
         height: 100%;
         display: flex;
         align-items:center;
-        width: 80%;
+        width: 30%;
         text-align: right;
         padding-right:10px;
         float: left;

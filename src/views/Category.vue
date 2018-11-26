@@ -46,7 +46,7 @@
                 if (subcategory.indexOf("/") !== -1) {
                     subcategory = subcategory.replace("/", "_").replace("/", "_");
                 }
-                this.$router.push('/result/' + subcategory);
+                this.$router.push('/result/' + this.$route.params.timeTableId + '/' + subcategory);
             }
         },
         mounted(){

@@ -24,7 +24,7 @@
                 </sui-tab-pane>
                 <sui-tab-pane class="pane" icon="tags grey" title="">
                     <div id="routerWrap">
-                        <router-view id="router"></router-view>
+                        <router-view id="router" ></router-view>
                     </div>
                 </sui-tab-pane>
             </sui-tab>

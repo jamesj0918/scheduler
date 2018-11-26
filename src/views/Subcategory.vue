@@ -61,7 +61,8 @@
                 if (subject.indexOf("/") !== -1) {
                     subject = subject.replace("/", "_").replace("/", "_");
                 }
-                this.$router.push('/result/'+this.category+'/'+subject);
+                console.log(1);
+                this.$router.push('/result/'+this.$route.params.timeTableId+'/'+this.category+'/'+subject);
             },
             link_previous(){
                 this.$router.go(-1);

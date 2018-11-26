@@ -2,13 +2,14 @@
 <template>
     <div>
         <form-table id="formTable"></form-table>
-        <add-class id="addClass"></add-class>
+        <add-class id="addClass" ></add-class>
     </div>
 </template>
 
 <script>
     import FormTable from './FormTable'
     import AddClass from './AddClass'
+
     export default {
         name: 'SearchForm',
         components:{

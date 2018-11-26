@@ -1,29 +1,24 @@
 <template>
     <div id = "schedulerWrap">
-        <!--<time-table id="timeTable"></time-table>-->
-                <agile class="agile"  :prevArrow="left" :nextArrow="right">
-                    <div class="slide slide--1"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
-                    <div class="slide slide--2"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
-                    <div class="slide slide--3"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
-                    <div class="slide slide--4"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
-                    <div class="slide slide--5"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
-                    <div class="slide slide--6"><div class="table"><time-table class="timeTable tablecell"></time-table></div></div>
-                </agile>
-        </div>
+
+        <time-table :time_table_id="time_table_id" class="timeTable tablecell" :bu="bus"></time-table>
+
+    </div>
 </template>
 
 <script>
     import TimeTable from './TimeTable'
 
     export default {
-        name: "Scheduler",
+        name: "SchedulerLayout",
+        props:['bus'],
         components:{
             'time-table': TimeTable,
+
         },
         data(){
             return{
-                left: '<svg style="width: 10px; height: 10px;"><i class="angle large left  icon"></i></svg>',
-                right: '<svg style="width: 10px; height: 10px;"><i class="angle large right  icon"></i></svg>'
+                time_table_id : this.$route.params.timeTableId,
             }
         },
         methods: {
@@ -34,6 +29,9 @@
 </script>
 
 <style lang="scss" type="text/scss">
+    #schedulerWrap{
+        background-color: yellow;
+    }
     .timeTable{
 
         width: 80%;

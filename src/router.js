@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Category from'./views/Category.vue'
 import SubjectList from './views/SubjectList.vue'
 
+import ShedulerLayout from './views/SchedulerLayout.vue'
 import InputLayout from './Input/InputLayout'
 import Subcategory from "./views/Subcategory";
 import  SubcategoryLayout from "./views/SubcategoryLayout"
@@ -20,32 +21,34 @@ export default new Router({
             component: InputLayout,
         },
         {
-            path: '/result',
+            path: '/result/:timeTableId',
             name: 'home',
             component: Home,
             children:[
+
                 {
-                    path:'',
+                    path:'/',
                     name:'category_list',
                     component: Category,
                 },
                 {
-                    path:':category',
-                    name:'category',
-                    component:SubcategoryLayout,
-                    children:[
+                    path: ':category',
+                    name: 'category',
+                    component: SubcategoryLayout,
+                    children: [
                         {
                             path: '',
                             name: 'subcategory_list',
                             component: Subcategory,
                         },
                         {
-                            path:':subcategory',
+                            path: ':subcategory',
                             name: 'subject_list',
                             component: SubjectList,
                         }
                     ]
-                },
+
+                }
             ]
         },
     ]
