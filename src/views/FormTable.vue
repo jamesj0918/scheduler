@@ -115,7 +115,7 @@
         margin-top: 10px;
         margin-bottom: 10px;
         height: 40vh;
-        overflow-y: scroll;
+
     }
     ::-webkit-scrollbar {
         width: 5px;

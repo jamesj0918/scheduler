@@ -1,6 +1,6 @@
 <template>
     <div id="timeTableWrap">
-        추가 목록{{subject.title}}
+
         <table id="timeTable">
             <thead>
             <tr>
@@ -16,11 +16,16 @@
             <tr>
                 <td class="time">9</td>
                 <td colspan="5" rowspan="12">
-                    <table id="table" style="width: 100%" v-if="days && times" >
+                    <table id="table" v-if="days && times"  >
                         <td class="cell"  v-for="(day, day_index) in days">
                             <tr class = "row" v-for="(time, time_index) in times">
                                 <div id="cellContent">
-                                    {{time_table[day_index][time_index].class_id}}
+                                    <div v-if="subject.length != 0" style="font-size: 9px; border-style: none;">
+                                        {{time_table[day_index][time_index].class_id}}
+
+                                    </div>
+
+
 
                                 </div>
                             </tr>
@@ -184,7 +189,7 @@
                 ],
                 time_table_id: this.$route.params.timeTableId,
                 subject: [],
-                time_table: [],
+                time_table: [{fill: 0, class_id: ''}],
             }
         },
         mounted(){
@@ -263,91 +268,65 @@
         margin: 0;
         padding: 0;
     }
-
-
-    .day{
-        width: 50px;
-        height: 5vh;
-        font-size: 15px;
-        color: rgb(207,207,207);
-    }
-    .time{
-        text-align: right;
-        width: 10%;
-        padding: 10px;
-        height: calc(100%/ 11);
-        vertical-align: center;
-        font-size: 15px;
-        color: rgb(207,207,207);
-    }
     table{
-        display: inline-block;
+        border-collapse: separate;
         border-spacing: 0;
-        width: 80%;
+        -moz-border-radius:10px;
+        -webkit-border-radius:10px;
     }
-
     #timeTableWrap{
-        border: 1px solid;
         display: inline-block;
         width: 100%;
         height: 100%;
     }
     #timeTable{
-        overflow-x: scroll;
         display: inline-block;
-        width: 100%;
+        margin: auto;
+        width: 70%;
+        height: auto;
     }
+
+    .day{
+        height: 4vh;
+        width:10vh;
+    }
+
+    .time{
+        width: 10vh;
+        height: 5vh;
+    }
+
     #table{
-        display: inline-block;
+        width: 50vh;
+        height: 55vh;
         background-color: white;
-        width :70%;
-        height: 100%;
         border: 1px solid rgb(226, 226, 226);
+        border-radius: 10px;
+        border-collapse: separate;
         -moz-border-radius:10px;
         -webkit-border-radius:10px;
-        border-radius:10px
     }
 
-    #table td{
-        padding: 0;
+
+    #cellContent{
+        width: 10vh;
+        height: 2.5vh;
+        overflow: hidden;
+
+    }
+    #table td tr div{
         border-right: 1px solid rgb(226, 226, 226);
     }
-    #table td:last-child{
-        border-right-style: none;
-    }
-    #cellContent{
-        display: inline-block;
-        height: calc(100%/22);
-        width:100px;
+
+    #table td:last-child tr div{
+        border-right:0;
     }
 
-    .row div{
-        height: calc(100%/22);
-    }
-    .row:nth-child(2n) div{
+    #table td tr:nth-child(even) div{
         border-bottom: 1px solid rgb(226, 226, 226);
     }
-    .row:last-child div{
-
-    }
-    checkbox{
-        outline: none;
-        border-style: none;
-    }
-    label{
-        display: inline-block;
-        width: 100px;
-        height: calc(100%/22);
-        text-overflow: ellipsis;
-    }
-    .checked{
-        background-color: rgb(226,226,226);
+    #table td tr:last-child div{
+        border-bottom: 0;
     }
 
-    .cell{
-        font-size: 11px;
-        height: 100%;
-        width: 100px;
-
-    }
 </style>
