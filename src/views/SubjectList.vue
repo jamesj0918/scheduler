@@ -28,22 +28,18 @@
                                             {{timetable.day}} {{timetable.start.slice(0,5)}}~{{timetable.end.slice(0,5)}}
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
-
                             <div class="iconWrap" @click="addClass(subject)"> <i class="plus circle large grey icon"></i></div>
                         </div>
                     </div>
                     <hr/>
                 </div>
-
             </div>
-            <div v-else>{{answer}}</div>
+            <div v-else>
+                <div style="display: inline-block; height: 100%;" class="ui active inline loader"></div>
+            </div>
         </div>
-
-
     </div>
 
 </template>
@@ -79,7 +75,6 @@
                 this.$router.go(-1);
             },
             addClass(object){
-                console.log(object);
                 this.$store.dispatch('ADD_CLASS', object);
                 this.$bus.$emit('GET_CLASS');
             }
@@ -115,7 +110,6 @@
         display: inline-block;
         width: 50%;
     }
-
 
     hr{
         height: 1px;

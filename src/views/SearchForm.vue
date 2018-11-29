@@ -32,7 +32,9 @@
         margin: auto;
     }
     #addClass{
+        display: inline-block;
         width: 90%;
+        border: 1px solid;
         margin: auto;
         height: 30vh;
     }

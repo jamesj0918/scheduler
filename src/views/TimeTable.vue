@@ -17,16 +17,13 @@
                 <td class="time">9</td>
                 <td colspan="5" rowspan="12">
                     <table id="table" v-if="days && times"  >
-                        <td class="cell"  v-for="(day, day_index) in days">
-                            <tr class = "row" v-for="(time, time_index) in times">
-                                <div id="cellContent">
-                                    <div v-if="subject.length != 0" style="font-size: 9px; border-style: none;">
-                                        {{time_table[day_index][time_index].class_id}}
-
+                        <td class="cell"  v-for="(day, day_index) in days" >
+                            <tr class = "row" v-for="(time, time_index) in times" :rowspan="2" >
+                                <div id="cellContent" v-if="time_table[day_index][time_index].long !== 0" v-bind:style="{height: time_table[day_index][time_index].long+'vh', margin: 0}" :class="{fill: time_table[day_index][time_index].fill}">
+                                    <div v-if="subject.length != 0" style="font-size: 11px; font-weight: bold; text-align: left; border-style: none;" >
+                                        {{time_table[day_index][time_index].class_id}} <br/>
+                                        {{time_table[day_index][time_index].classroom}}
                                     </div>
-
-
-
                                 </div>
                             </tr>
                         </td>
@@ -184,12 +181,11 @@
                         start: '1930',
                         end: '2000',
                     }
-
-
                 ],
                 time_table_id: this.$route.params.timeTableId,
                 subject: [],
-                time_table: [{fill: 0, class_id: ''}],
+                time_table: [{fill: 0, class_id: '1', long: 2.5}],
+                add_class_list: [],
             }
         },
         mounted(){
@@ -199,7 +195,7 @@
             }
             for(let i=0;i<5;i++){
                 for(let j=0;j<22;j++){
-                    this.time_table[i][j]={'fill': 0, 'class_id': null};
+                    this.time_table[i][j]={'fill': false, 'class_id': null, 'classroom': '', 'long': 2.5};
                 }
             }
             this.$bus.$on('GET_CLASS',this.getClass);
@@ -209,7 +205,6 @@
                 this.subject = this.$store.getters.GET_CLASS;
                 this.addClassOnTable();
             },
-
             addClassOnTable(){
                 for(let i = 0;i<this.subject.length;i++){
                     for(let j=0;j<this.subject[i].subject.timetable.length;j++){
@@ -231,9 +226,6 @@
                         let end_h = Number(this.subject[i].subject.timetable[j].end[0]+this.subject[i].subject.timetable[j].end[1]);
                         let end_m = Number(this.subject[i].subject.timetable[j].end[3]+this.subject[i].subject.timetable[j].end[4]);
 
-
-                        console.log(start_h, start_m, end_h, end_m);
-
                         let start = 0;
                         let end = 0;
 
@@ -241,15 +233,23 @@
                         if(start_m == 30){
                             start++;
                         }
-
-                        end = (end_h-9)*2;
+                        end = (end_h-9)*2-1;
                         if(end_m == 30){
                             end++;
                         }
 
-                        for(let k=start;k<end;k++){
-                            this.time_table[day][k].fill = 1;
-                            this.time_table[day][k].class_id=this.subject[i].subject.title;
+                        this.time_table[day][start].fill = true;
+                        this.time_table[day][start].class_id = this.subject[i].subject.title;
+                        this.time_table[day][start].long = (end - start+1)*2.5;
+                        this.time_table[day][start].classroom = this.subject[i].subject.classroom;
+
+
+
+
+                        for(let k=start+1;k<=end;k++){
+                           this.time_table[day][k].fill = true;
+                           this.time_table[day][k].class_id = this.subject[i].subject.title;
+                           this.time_table[day][k].long = 0;
                         }
 
                     }
@@ -307,12 +307,9 @@
         -webkit-border-radius:10px;
     }
 
-
     #cellContent{
         width: 10vh;
-        height: 2.5vh;
         overflow: hidden;
-
     }
     #table td tr div{
         border-right: 1px solid rgb(226, 226, 226);
@@ -328,5 +325,19 @@
     #table td tr:last-child div{
         border-bottom: 0;
     }
+
+
+    #table td tr:nth-child(even) .fill{
+        border: 1px solid red;
+        background-color: #ccc;
+        display: none;
+    }
+    .fill{
+        background-color: #bbb;
+        color: white;
+        font-size: 13px;
+        width: 100%;
+    }
+
 
 </style>

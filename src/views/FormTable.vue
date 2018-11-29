@@ -130,36 +130,6 @@
         border-radius: 10px;
     }
 
-
-    #item{
-        width: 90%;
-        border: 1px solid rgb(226, 226, 226);
-        margin: auto;
-        list-style: none;
-        height: 50px;
-        border-radius: 10px;
-        text-align: left;
-        padding: 5px 20px 5px 20px;
-    }
-
-    #subjectWrap{
-        width: 80%;
-        height: 100%;
-        float: left;
-    }
-    #buttonWrap{
-        width: 20%;
-        height: 100%;
-        float: right;
-    }
-
-    #addButton{
-        display: flex;
-        justify-content:center;
-        align-items:center;
-
-    }
-
     #router{
         height: calc( 40vh);
         overflow-y: scroll;
