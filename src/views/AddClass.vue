@@ -1,6 +1,6 @@
 <template>
     <div id="addClassWrap">
-        <div v-for="subject in add_subjects" id="itemLayout">
+        <div v-for="(subject,index) in add_subjects" id="itemLayout">
             <div id="itemContent">
                 <div id="itemLeftOuter">
                     <div id="itemLeftInner">
@@ -15,10 +15,7 @@
                         </div>
 
                     </div>
-
-
                 </div>
-
                 <div id="itemRightOuter">
                         <div id="itemRightInner">
                             <div id="timeTableOuter">
@@ -30,15 +27,12 @@
                             </div>
 
                             <div id="iconWrap">
-                                <div id="icon">
+                                <div id="icon" @click="deleteClass(index)">
                                     <i class="ui icon grey large circle minus"></i>
                                 </div>
                             </div>
-
                         </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -59,6 +53,14 @@
             getClass(){
                 this.add_subjects = this.$store.getters.GET_CLASS;
             },
+            deleteClass(index){
+                console.log(this.add_subjects[index]);
+                this.$store.dispatch('DELETE_ADD_CLASS',this.add_subjects[index]);
+                const remove_class = {
+                    class_id : this.add_subjects[index].subject.title,
+                }
+                this.$bus.$emit('removeAddClass',remove_class);
+            }
         }
     }
 </script>

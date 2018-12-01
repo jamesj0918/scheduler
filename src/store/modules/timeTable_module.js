@@ -1,7 +1,7 @@
 
 const ADD_CLASS = "ADD_CLASS";
 const GET_CLASS = "GET_CLASS";
-
+const DELETE_ADD_CLASS = "DELETE_ADD_CLASS";
 const state = {
     active_table: 0,
     origin_time_table: [],
@@ -13,12 +13,21 @@ const mutations = {
     ADD_CLASS (state, subject){
         state.add_time_table.push({id: state.active_table, subject: subject});
     },
+    DELETE_ADD_CLASS(state, subject){
+        const found_index = state.add_time_table.findIndex(function(element){
+            return element.subject.code == subject.subject.code;
+        });
+        state.add_time_table.splice(found_index,1);
+    }
 };
 const actions = {
 
     ADD_CLASS({commit},subject){
         commit(ADD_CLASS,subject);
     },
+    DELETE_ADD_CLASS({commit},subject){
+        commit(DELETE_ADD_CLASS,subject);
+    }
 };
 
 const getters = {

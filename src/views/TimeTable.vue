@@ -22,7 +22,7 @@
                                         id="cellContent"
                                         v-if="timeTableLength(day_index,time_index)"
                                         v-bind:style="{height: time_table[day_index][time_index].long+'vh', margin: 0}"
-                                        :class="{fill: time_table[day_index][time_index].fill}">
+                                        :class="{fill: time_table[day_index][time_index].fill, empty: time_table[day_index][time_index]===0}">
                                     <div
                                             v-if="add_subject.length !== 0"
                                             style = "font-size: 11px; font-weight: bold; text-align: left; border-style: none;" >
@@ -206,6 +206,7 @@
                 }
             }
             this.$bus.$on('getAddClass',this.getAddClass);
+            this.$bus.$on('removeAddClass',this.removeClassOnTable);
             this.load_true = true;
         },
         methods:{
@@ -299,7 +300,6 @@
                     if (end_m === 30) {
                         end = end + 1;
                     }
-                    console.log(start, end);
 
                     for (let j = start; j <= end; j++) {
                         if (confirm_answer === true) {
@@ -308,11 +308,10 @@
                         if (this.time_table[day][j].fill === true) {
                             confirm_answer = confirm("기존의 수업을 삭제하시겠습니까?");
                             if (confirm_answer === true) {
-                                this.removeClassOnTable(day, j, this.time_table[day][j]);
+                                this.removeClassOnTable(this.time_table[day][j]);
                                 break;
                             }
                             else {
-
                                 return;
                             }
                         }
@@ -331,22 +330,55 @@
                 }
 
             },//addClassOnTable()
-            removeClassOnTable(day ,on, add_class){
+            removeClassOnTable(overlap_class){
                 this.load_true = false;
-                let foundIndex = this.time_table[day].findIndex(function(element){
-                    return element.class_id == add_class.class_id;
+
+                let found_class_in_vuex = this.add_subject.find(function (element){
+
+                    return element.subject.title == overlap_class.class_id;
                 });
-                for(let i = 1; i<(this.time_table[day][foundIndex].long/2.5); i++){
-                    this.time_table[day][i+foundIndex].fill = false;
-                    this.time_table[day][i+foundIndex].class_id = null;
-                    this.time_table[day][i+foundIndex].classroom = '';
-                    this.time_table[day][i+foundIndex].long = 2.5;
+
+                this.$store.dispatch('DELETE_ADD_CLASS',found_class_in_vuex);
+
+
+                for(let j = 0; j< found_class_in_vuex.subject.timetable.length; j++){
+                    const day_char = found_class_in_vuex.subject.timetable[j].day;
+                    let day_vuex = 0;
+                    if (day_char == '월') {
+                        day_vuex = 0;
+                    } else if (day_char == '화') {
+                        day_vuex = 1;
+                    } else if (day_char == '수') {
+                        day_vuex = 2;
+                    } else if (day_char == '목') {
+                        day_vuex = 3;
+                    } else if (day_char == '금') {
+                        day_vuex = 4;
+                    }
+
+                    let found_index = this.time_table[day_vuex].findIndex(function (element) {
+                        return element.class_id == overlap_class.class_id;
+                    });
+
+
+                    for (let i = 1; i < (this.time_table[day_vuex][found_index].long / 2.5); i++) {
+                        this.time_table[day_vuex][i + found_index].fill = false;
+                        this.time_table[day_vuex][i + found_index].class_id = null;
+                        this.time_table[day_vuex][i + found_index].classroom = '';
+                        this.time_table[day_vuex][i + found_index].long = 2.5;
+                    }
+                    this.time_table[day_vuex][found_index].fill = false;
+                    this.time_table[day_vuex][found_index].class_id = null;
+                    this.time_table[day_vuex][found_index].classroom = '';
+                    this.time_table[day_vuex][found_index].long = 2.5;
+                    this.load_true = true;
                 }
-                this.time_table[day][foundIndex].fill=false;
-                this.time_table[day][foundIndex].class_id = null;
-                this.time_table[day][foundIndex].classroom = '';
-                this.time_table[day][foundIndex].long = 2.5;
-                this.load_true = true;
+
+
+
+
+
+
             }//removeClassOnTable()
         }
     }
@@ -421,7 +453,7 @@
         border-bottom: 0;
     }
 
-    #table td tr:nth-child(even) .fill{
+    #table td tr:nth-child(even) .fill .empty{
         background-color: #ccc;
         display: none;
     }
