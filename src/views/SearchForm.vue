@@ -1,6 +1,6 @@
 
 <template>
-    <div>
+    <div id="searchFormWrap">
         <form-table id="formTable"></form-table>
         <add-class id="addClass" ></add-class>
     </div>

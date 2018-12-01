@@ -33,8 +33,6 @@
         display: inline-block;
         width: 70%;
         height: 100vh;
-        border: 1px solid;
-
         margin: auto;
     }
     #scheduler{
@@ -42,11 +40,10 @@
         width: 50%;
         height: 100vh;
         float: left;
-        border: 1px solid;
     }
     #searchForm{
         display: inline-block;
-        border: 1px solid;
+
         width: 50%;
         height: 100vh;
         float: right;

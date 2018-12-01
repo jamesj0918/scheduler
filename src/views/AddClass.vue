@@ -8,7 +8,8 @@
                             <div id="itemTitle">
                                 {{subject.subject.title}}
                             </div>
-                            <div class="itemInfo" v-if="subject.classroom">
+
+                            <div class="itemInfo" v-if="subject.subject.classroom">
                                 {{subject.subject.professor}},{{subject.subject.classroom}}
                             </div>
                             <div class="itemInfo" v-else>온라인</div>
@@ -115,7 +116,10 @@
         float: left;
         width: 100%;
         font-size: 10px;
+        font-weight: bold;
         text-align: left;
+        color: #aaa;
+
     }
 
     #itemRightOuter{

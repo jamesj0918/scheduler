@@ -1,6 +1,7 @@
 <template>
     <div>
         <div id="title">
+
             <h4>
                 {{category}} > {{subcategory}} {{count}}개의 강의
                 <i
@@ -14,17 +15,17 @@
             <hr style="margin-top: 10px; border-top: 1px solid darkgray;">
             <div v-if="load">
                 <div v-for="(subject, key) in subjects" :key="key">
+
                     <div class="item" >
                         <div id="categoryLeft">
                             <div class="title">
                                 {{subject.title}}
                             </div>
                             <div class="num" v-if="subject.classroom">
-                                {{subject.classroom}}
+                                {{subject.professor}}, {{subject.classroom}}
                             </div>
                             <div class="num" v-else>온라인</div>
                         </div>
-
                         <div class="categoryRight">
 
                             <div  class="timeTable">
@@ -62,19 +63,17 @@
                 count: 0,
                 subjects: [],
                 load : false,
-                answer: '불러오는 중...'
+                answer: '불러오는 중...',
+                bottom: 0,
+                page: 1,
 
             }
         },
-        mounted(){
-            const  search_category = this.category.replace("_","/").replace("_","/");
-            let search_subcategory = this.subcategory.replace("_","/").replace("_","/");
-            axios.get('search/?category='+search_category+'&subcategory='+search_subcategory).
-                then((response)=>{
-                    this.count = response.data.count;
-                    this.subjects = response.data.results;
-                    this.load = true;
-            })
+        created() {
+            window.addEventListener('scroll', () => {
+                this.bottom = this.bottomVisible();
+            });
+            this.getSubjectList(this.page);
         },
         methods:{
             link_previous(){
@@ -83,8 +82,41 @@
             addClass(object){
                 this.$store.dispatch('ADD_CLASS', object);
                 this.$bus.$emit('getAddClass', object);
+            },
+            getSubjectList(page){
+                const  search_category = this.category.replace("_","/").replace("_","/");
+                let search_subcategory = this.subcategory.replace("_","/").replace("_","/");
+                axios.get('search/?category='+search_category+'&subcategory='+search_subcategory+'&page='+page).
+                then((response)=>{
+
+                    this.count = response.data.count;
+                    this.load = true;
+                    for(let i=0;i<response.data.results.length;i++){
+                        this.subjects.push(response.data.results[i]);
+                    }
+                    if(this.bottomVisible()) {
+                        this.page++;
+                        this.getSubjectList(this.page);
+                    }
+                })
+            },
+            bottomVisible() {
+                var scrollY = window.pageYOffset;
+                var visible = document.documentElement.clientHeight;
+                var pageHeight = document.documentElement.scrollHeight;
+                var bottomOfPage = visible + scrollY >= pageHeight;
+                return bottomOfPage || pageHeight < visible;
+            },
+
+        },//methods
+        watch: {
+            bottom: function(bottom) {
+                if(bottom) {
+                    this.page++;
+                    this.getSubjectList(this.page);
+                }
             }
-        }
+        },
     }
 </script>
 
@@ -101,7 +133,7 @@
 
     .categoryRight{
         height: 100%;
-        width:60%;
+        width:53%;
         float: right;
     }
     .item{
@@ -125,7 +157,7 @@
     }
     #categoryLeft{
         display: inline-block;
-        width: 40%;
+        width: 47%;
     }
 
     .title{
@@ -135,7 +167,7 @@
         float: left;
         padding-left: 10px;
         padding-right: 10px;
-        font-size: 13px;
+        font-size: 12px;
         text-align: left;
         font-weight: bold;
         align-items:center;
@@ -147,8 +179,10 @@
         align-items:center;
         width: 100%;
         font-size: 10px;
-        text-align: right;
+        text-align: left;
         float: left;
+        font-weight: bold;
+        color: #aaa;
     }
     .iconWrap{
         display: flex;

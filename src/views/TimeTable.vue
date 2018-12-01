@@ -375,10 +375,6 @@
                 }
 
 
-
-
-
-
             }//removeClassOnTable()
         }
     }
