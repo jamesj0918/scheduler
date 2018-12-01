@@ -15,12 +15,21 @@
             <tbody>
             <tr>
                 <td class="time">9</td>
-                <td colspan="5" rowspan="12">
-                    <table id="table" v-if="days && times"  >
-                        <td class="cell"  v-for="(day, day_index) in days" >
-                            <tr class = "row" v-for="(time, time_index) in times" :rowspan="2" >
-                                <div id="cellContent" v-if="time_table[day_index][time_index].long !== 0" v-bind:style="{height: time_table[day_index][time_index].long+'vh', margin: 0}" :class="{fill: time_table[day_index][time_index].fill}">
-                                    <div v-if="subject.length != 0" style="font-size: 11px; font-weight: bold; text-align: left; border-style: none;" >
+                <td colspan="5" rowspan="12" v-if="time_table">
+                    <table id="table" v-if="days && times"   >
+                        <td class="cell"  v-for="(day, day_index) in days"  >
+                            <tr class = "row"   v-for="(time, time_index) in times" :rowspan="2" >
+                                <div
+                                        id="cellContent"
+                                        v-if="timeTableLength(day_index,time_index)"
+                                        v-bind:style="{height: time_table[day_index][time_index].long+'vh', margin: 0}"
+                                        class="{fill: time_table[day_index][time_index].fill}">
+                                    <div
+                                            v-if="subject.length !== 0"
+                                            style=  "font-size: 11px;
+                                                    font-weight: bold;
+                                                    text-align: left;
+                                                    border-style: none;" >
                                         {{time_table[day_index][time_index].class_id}} <br/>
                                         {{time_table[day_index][time_index].classroom}}
                                     </div>
@@ -184,7 +193,7 @@
                 ],
                 time_table_id: this.$route.params.timeTableId,
                 subject: [],
-                time_table: [{fill: 0, class_id: '1', long: 2.5}],
+                time_table: [],
                 add_class_list: [],
             }
         },
@@ -225,26 +234,22 @@
                         let start_m = Number(this.subject[i].subject.timetable[j].start[3]+this.subject[i].subject.timetable[j].start[4]);
                         let end_h = Number(this.subject[i].subject.timetable[j].end[0]+this.subject[i].subject.timetable[j].end[1]);
                         let end_m = Number(this.subject[i].subject.timetable[j].end[3]+this.subject[i].subject.timetable[j].end[4]);
-
                         let start = 0;
                         let end = 0;
 
                         start = (start_h-9)*2;
-                        if(start_m == 30){
-                            start++;
+                        if(start_m === 30){
+                            start+=1;
                         }
                         end = (end_h-9)*2-1;
-                        if(end_m == 30){
-                            end++;
+                        if(end_m === 30){
+                            end+=1;
                         }
 
                         this.time_table[day][start].fill = true;
                         this.time_table[day][start].class_id = this.subject[i].subject.title;
                         this.time_table[day][start].long = (end - start+1)*2.5;
                         this.time_table[day][start].classroom = this.subject[i].subject.classroom;
-
-
-
 
                         for(let k=start+1;k<=end;k++){
                            this.time_table[day][k].fill = true;
@@ -255,6 +260,15 @@
                     }
                 }
 
+            },//addClassOnTable
+            timeTableLength(day, time){
+                if(this.time_table.length !== 0){
+                    if(this.time_table[day][time].long !==0){
+                        return true;
+                    }
+
+                }
+                return false;
             }
 
         }
@@ -326,13 +340,14 @@
         border-bottom: 0;
     }
 
-
+    <!-- .fill 사용되는 거니까 지우지 마시오 -->
     #table td tr:nth-child(even) .fill{
         border: 1px solid red;
         background-color: #ccc;
         display: none;
     }
     .fill{
+
         background-color: #bbb;
         color: white;
         font-size: 13px;

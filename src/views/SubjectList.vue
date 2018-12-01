@@ -15,12 +15,18 @@
             <div v-if="load">
                 <div v-for="(subject, key) in subjects" :key="key">
                     <div class="item" >
-                        <div class="title">
-                            {{subject.title}}
-                        </div>
-                        <div class="categoryInfo">
-                            <div class="num" v-if="subject.classroom">{{subject.classroom}}</div>
+                        <div id="categoryLeft">
+                            <div class="title">
+                                {{subject.title}}
+                            </div>
+                            <div class="num" v-if="subject.classroom">
+                                {{subject.classroom}}
+                            </div>
                             <div class="num" v-else>온라인</div>
+                        </div>
+
+                        <div class="categoryRight">
+
                             <div  class="timeTable">
                                 <div id="timeOuter">
                                     <div id="timeInner">
@@ -93,7 +99,7 @@
         text-align: left;
     }
 
-    .categoryInfo{
+    .categoryRight{
         height: 100%;
         width:60%;
         float: right;
@@ -102,13 +108,13 @@
         margin-top: 5px;
         margin-bottom: 5px;
         display: flex;
-        height: 40px;
+        height: 50px;
         align-items:center;
     }
     .timeTable{
         height: 100%;
         display: inline-block;
-        width: 50%;
+        width: 60%;
     }
 
     hr{
@@ -117,33 +123,37 @@
         border-top: 1px solid rgb(226, 226, 226);
         padding: 0;
     }
+    #categoryLeft{
+        display: inline-block;
+        width: 40%;
+    }
 
     .title{
-        height: 100%;
+        height: 50%;
         display: flex;
-        width: 40%;
+        width: 100%;
         float: left;
         padding-left: 10px;
         padding-right: 10px;
-        font-size: 12px;
+        font-size: 13px;
         text-align: left;
         font-weight: bold;
         align-items:center;
     }
     .num{
-        height: 100%;
+        height: 50%;
         display: flex;
+        padding-left: 10px;
         align-items:center;
-        width: 30%;
-        font-size: 1epx;
+        width: 100%;
+        font-size: 10px;
         text-align: right;
-        padding-right:10px;
         float: left;
     }
     .iconWrap{
         display: flex;
-        width: 20%;
         height: 100%;
+        margin-right: 5%;
         float: right;
         justify-content:center;
         align-items:center;

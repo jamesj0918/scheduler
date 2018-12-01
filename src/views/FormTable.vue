@@ -8,7 +8,7 @@
                         @click="link_result()"
                         icon="search grey"
                         title="">
-                    <div class="pane">
+                    <div>
                         <div id="inputFormWrap">
                             <div id="inputForm">
                                 <input>
@@ -22,7 +22,9 @@
                         </div>
                     </div>
                 </sui-tab-pane>
-                <sui-tab-pane class="pane" icon="tags grey" title="">
+                <sui-tab-pane
+                        icon="tags grey"
+                        title="">
                     <div id="routerWrap">
                         <router-view id="router" ></router-view>
                     </div>
@@ -72,11 +74,10 @@
     }
 
     #tab{
-        width: 80%;
+        width: 60%;
         height: 100%;
         margin: auto;
         padding-top: 10%;
-        border: 1px solid;
     }
 
     #inputFormWrap{
@@ -111,11 +112,14 @@
         align-items:center;
     }
     #searchResultWrap{
+        display: inline-block;
         width: 100%;
         margin-top: 10px;
         margin-bottom: 10px;
+        height: 30vh ;
+    }
+    #routerWrap{
         height: 40vh;
-
     }
     ::-webkit-scrollbar {
         width: 5px;

@@ -30,10 +30,12 @@
         padding: 0;
     }
     #homeWrap{
-        width: 80%;
+        display: inline-block;
+        width: 70%;
         height: 100vh;
         border: 1px solid;
-        margin-left: 10%;
+
+        margin: auto;
     }
     #scheduler{
         display: inline-block;

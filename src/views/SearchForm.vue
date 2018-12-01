@@ -28,14 +28,13 @@
     #formTable{
         display: inline-block;
         width: 90%;
-        height: 70vh;
+        height: 50vh;
         margin: auto;
     }
     #addClass{
         display: inline-block;
         width: 90%;
-        border: 1px solid;
         margin: auto;
-        height: 30vh;
+        height: 50vh;
     }
 </style>
