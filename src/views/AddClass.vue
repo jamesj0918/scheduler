@@ -53,7 +53,7 @@
             }
         },
         mounted(){
-            this.$bus.$on('GET_CLASS',this.getClass);
+            this.$bus.$on('getAddClass',this.getClass);
         },
         methods:{
             getClass(){

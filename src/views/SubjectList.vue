@@ -82,7 +82,7 @@
             },
             addClass(object){
                 this.$store.dispatch('ADD_CLASS', object);
-                this.$bus.$emit('GET_CLASS');
+                this.$bus.$emit('getAddClass', object);
             }
         }
     }

@@ -1,6 +1,5 @@
 <template>
     <div id="timeTableWrap">
-
         <table id="timeTable">
             <thead>
             <tr>
@@ -15,21 +14,18 @@
             <tbody>
             <tr>
                 <td class="time">9</td>
-                <td colspan="5" rowspan="12" v-if="time_table">
-                    <table id="table" v-if="days && times"   >
-                        <td class="cell"  v-for="(day, day_index) in days"  >
-                            <tr class = "row"   v-for="(time, time_index) in times" :rowspan="2" >
+                <td colspan="5" rowspan="12"  v-if="load_true===true">
+                    <table id="table">
+                        <td class="cell" v-for="(day, day_index) in days"  >
+                            <tr class="row" v-for="(time, time_index) in times" :rowspan="2">
                                 <div
                                         id="cellContent"
                                         v-if="timeTableLength(day_index,time_index)"
                                         v-bind:style="{height: time_table[day_index][time_index].long+'vh', margin: 0}"
-                                        class="{fill: time_table[day_index][time_index].fill}">
+                                        :class="{fill: time_table[day_index][time_index].fill}">
                                     <div
-                                            v-if="subject.length !== 0"
-                                            style=  "font-size: 11px;
-                                                    font-weight: bold;
-                                                    text-align: left;
-                                                    border-style: none;" >
+                                            v-if="add_subject.length !== 0"
+                                            style = "font-size: 11px; font-weight: bold; text-align: left; border-style: none;" >
                                         {{time_table[day_index][time_index].class_id}} <br/>
                                         {{time_table[day_index][time_index].classroom}}
                                     </div>
@@ -193,8 +189,10 @@
                 ],
                 time_table_id: this.$route.params.timeTableId,
                 subject: [],
+                add_subject: [],
                 time_table: [],
-                add_class_list: [],
+                add_class: [],
+                load_true: false,
             }
         },
         mounted(){
@@ -207,70 +205,149 @@
                     this.time_table[i][j]={'fill': false, 'class_id': null, 'classroom': '', 'long': 2.5};
                 }
             }
-            this.$bus.$on('GET_CLASS',this.getClass);
+            this.$bus.$on('getAddClass',this.getAddClass);
+            this.load_true = true;
         },
         methods:{
-            getClass(){
-                this.subject = this.$store.getters.GET_CLASS;
-                this.addClassOnTable();
+            getAddClass(add_class){
+                this.add_subject = this.$store.getters.GET_CLASS;
+                this.addClassOnTable(add_class);
             },
-            addClassOnTable(){
-                for(let i = 0;i<this.subject.length;i++){
-                    for(let j=0;j<this.subject[i].subject.timetable.length;j++){
+            /*
+            initTimeTable(){
+                for(let i = 0;i<this.subject.length;i++) {
+                    for (let j = 0; j < this.subject[i].subject.timetable.length; j++) {
                         let day = 0;
-                        if(this.subject[i].subject.timetable[j].day == '월'){
-                            day=0;
-                        }else if(this.subject[i].subject.timetable[j].day == '화'){
-                            day=1;
-                        }else if(this.subject[i].subject.timetable[j].day == '수'){
-                            day=2;
-                        }else if(this.subject[i].subject.timetable[j].day == '목'){
-                            day=3;
-                        }else if(this.subject[i].subject.timetable[j].day == '금'){
-                            day=4;
+                        if (this.subject[i].subject.timetable[j].day === '월') {
+                            day = 0;
+                        } else if (this.subject[i].subject.timetable[j].day === '화') {
+                            day = 1;
+                        } else if (this.subject[i].subject.timetable[j].day === '수') {
+                            day = 2;
+                        } else if (this.subject[i].subject.timetable[j].day === '목') {
+                            day = 3;
+                        } else if (this.subject[i].subject.timetable[j].day === '금') {
+                            day = 4;
                         }
 
-                        let start_h = Number(this.subject[i].subject.timetable[j].start[0]+this.subject[i].subject.timetable[j].start[1]);
-                        let start_m = Number(this.subject[i].subject.timetable[j].start[3]+this.subject[i].subject.timetable[j].start[4]);
-                        let end_h = Number(this.subject[i].subject.timetable[j].end[0]+this.subject[i].subject.timetable[j].end[1]);
-                        let end_m = Number(this.subject[i].subject.timetable[j].end[3]+this.subject[i].subject.timetable[j].end[4]);
+                        let start_h = Number(this.subject[i].subject.timetable[j].start[0] + this.subject[i].subject.timetable[j].start[1]);
+                        let start_m = Number(this.subject[i].subject.timetable[j].start[3] + this.subject[i].subject.timetable[j].start[4]);
+                        let end_h = Number(this.subject[i].subject.timetable[j].end[0] + this.subject[i].subject.timetable[j].end[1]);
+                        let end_m = Number(this.subject[i].subject.timetable[j].end[3] + this.subject[i].subject.timetable[j].end[4]);
                         let start = 0;
                         let end = 0;
 
-                        start = (start_h-9)*2;
-                        if(start_m === 30){
-                            start+=1;
+                        start = (start_h - 9) * 2;
+                        if (start_m === 30) {
+                            start = start + 1;
                         }
-                        end = (end_h-9)*2-1;
-                        if(end_m === 30){
-                            end+=1;
+                        end = (end_h - 9) * 2 - 1;
+                        if (end_m === 30) {
+                            end = end + 1;
                         }
+                            this.time_table[day][start].fill = true;
+                            this.time_table[day][start].class_id = this.subject[i].subject.title;
+                            this.time_table[day][start].long = (end - start + 1) * 2.5;
+                            this.time_table[day][start].classroom = this.subject[i].subject.classroom;
 
-                        this.time_table[day][start].fill = true;
-                        this.time_table[day][start].class_id = this.subject[i].subject.title;
-                        this.time_table[day][start].long = (end - start+1)*2.5;
-                        this.time_table[day][start].classroom = this.subject[i].subject.classroom;
+                            for (let k = start + 1; k <= end; k++) {
+                                this.time_table[day][k].fill = true;
+                                this.time_table[day][k].class_id = this.subject[i].subject.title;
+                                this.time_table[day][k].long = 0;
+                            }
 
-                        for(let k=start+1;k<=end;k++){
-                           this.time_table[day][k].fill = true;
-                           this.time_table[day][k].class_id = this.subject[i].subject.title;
-                           this.time_table[day][k].long = 0;
                         }
-
                     }
-                }
 
-            },//addClassOnTable
+            },//initTimeTable*/
             timeTableLength(day, time){
                 if(this.time_table.length !== 0){
                     if(this.time_table[day][time].long !==0){
                         return true;
                     }
-
                 }
                 return false;
-            }
+            },//timeTableLength()
+            addClassOnTable(add_class){
+                let confirm_answer = false;
+                for(let i=0;i<add_class.timetable.length;i++) {
+                    let day = 0;
+                    if (add_class.timetable[i].day === '월') {
+                        day = 0;
+                    } else if (add_class.timetable[i].day === '화') {
+                        day = 1;
+                    } else if (add_class.timetable[i].day === '수') {
+                        day = 2;
+                    } else if (add_class.timetable[i].day === '목') {
+                        day = 3;
+                    } else if (add_class.timetable[i].day === '금') {
+                        day = 4;
+                    }
 
+                    let start_h = Number(add_class.timetable[i].start[0] + add_class.timetable[i].start[1]);
+                    let start_m = Number(add_class.timetable[i].start[3] + add_class.timetable[i].start[4]);
+                    let end_h = Number(add_class.timetable[i].end[0] + add_class.timetable[i].end[1]);
+                    let end_m = Number(add_class.timetable[i].end[3] + add_class.timetable[i].end[4]);
+                    let start = 0;
+                    let end = 0;
+
+                    start = (start_h - 9) * 2;
+                    if (start_m === 30) {
+                        start = start + 1;
+                    }
+                    end = (end_h - 9) * 2 - 1;
+                    if (end_m === 30) {
+                        end = end + 1;
+                    }
+                    console.log(start, end);
+
+                    for (let j = start; j <= end; j++) {
+                        if (confirm_answer === true) {
+                            break;
+                        }
+                        if (this.time_table[day][j].fill === true) {
+                            confirm_answer = confirm("기존의 수업을 삭제하시겠습니까?");
+                            if (confirm_answer === true) {
+                                this.removeClassOnTable(day, j, this.time_table[day][j]);
+                                break;
+                            }
+                            else {
+
+                                return;
+                            }
+                        }
+                    }
+
+                    this.time_table[day][start].fill = true;
+                    this.time_table[day][start].class_id = add_class.title;
+                    this.time_table[day][start].long = (end - start + 1) * 2.5;
+                    this.time_table[day][start].classroom = add_class.classroom;
+
+                    for (let k = start + 1; k <= end; k++) {
+                        this.time_table[day][k].fill = true;
+                        this.time_table[day][k].class_id = add_class.title;
+                        this.time_table[day][k].long = 0;
+                    }
+                }
+
+            },//addClassOnTable()
+            removeClassOnTable(day ,on, add_class){
+                this.load_true = false;
+                let foundIndex = this.time_table[day].findIndex(function(element){
+                    return element.class_id == add_class.class_id;
+                });
+                for(let i = 1; i<(this.time_table[day][foundIndex].long/2.5); i++){
+                    this.time_table[day][i+foundIndex].fill = false;
+                    this.time_table[day][i+foundIndex].class_id = null;
+                    this.time_table[day][i+foundIndex].classroom = '';
+                    this.time_table[day][i+foundIndex].long = 2.5;
+                }
+                this.time_table[day][foundIndex].fill=false;
+                this.time_table[day][foundIndex].class_id = null;
+                this.time_table[day][foundIndex].classroom = '';
+                this.time_table[day][foundIndex].long = 2.5;
+                this.load_true = true;
+            }//removeClassOnTable()
         }
     }
 
@@ -303,11 +380,15 @@
     .day{
         height: 4vh;
         width:10vh;
+        color: rgb(200, 200, 200);
     }
 
     .time{
         width: 10vh;
         height: 5vh;
+        padding-right: 5px;
+        font-weight: bold;
+        color: rgb(200, 200, 200);
     }
 
     #table{
@@ -340,18 +421,18 @@
         border-bottom: 0;
     }
 
-    <!-- .fill 사용되는 거니까 지우지 마시오 -->
     #table td tr:nth-child(even) .fill{
-        border: 1px solid red;
         background-color: #ccc;
         display: none;
     }
-    .fill{
 
+    .fill{
         background-color: #bbb;
+        padding-left: 2px;
         color: white;
         font-size: 13px;
         width: 100%;
+        border-style: none;
     }
 
 
