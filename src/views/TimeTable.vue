@@ -455,12 +455,13 @@
     }
 
     .fill{
+
         background-color: #bbb;
         padding-left: 2px;
         color: white;
         font-size: 13px;
         width: 100%;
-        border-style: none;
+        border-bottom: 0.1px solid rgb(226, 226, 226);
     }
 
 

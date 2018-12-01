@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="subjectListWrap">
         <div id="title">
 
             <h4>
@@ -13,8 +13,8 @@
         </div>
         <div id="subjectListContentWrap">
             <hr style="margin-top: 10px; border-top: 1px solid darkgray;">
-            <div v-if="load">
-                <div v-for="(subject, key) in subjects" :key="key">
+            <div v-if="load" >
+                <div v-for="(subject, key) in subjects" :key="key" id="itemWrap">
 
                     <div class="item" >
                         <div id="categoryLeft">
@@ -31,7 +31,7 @@
                             <div  class="timeTable">
                                 <div id="timeOuter">
                                     <div id="timeInner">
-                                        <div v-for="timetable in subject.timetable" >
+                                        <div v-for="timetable in subject.timetable" style="font-size: 11px;" >
                                             {{timetable.day}} {{timetable.start.slice(0,5)}}~{{timetable.end.slice(0,5)}}
                                         </div>
                                     </div>
@@ -125,6 +125,9 @@
         margin: 0;
         padding: 0;
     }
+    #subjectListWrap{
+        padding-bottom: 0px;
+    }
     #title{
         padding-top: 10px;
         padding-left: 20px;
@@ -155,6 +158,7 @@
         border-top: 1px solid rgb(226, 226, 226);
         padding: 0;
     }
+
     #categoryLeft{
         display: inline-block;
         width: 47%;

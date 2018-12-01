@@ -31,20 +31,20 @@
     }
     #homeWrap{
         display: inline-block;
-        width: 70%;
+        width: 60%;
         height: 100vh;
         margin: auto;
     }
     #scheduler{
         display: inline-block;
-        width: 50%;
+        width: 40%;
         height: 100vh;
         float: left;
     }
     #searchForm{
         display: inline-block;
 
-        width: 50%;
+        width: 60%;
         height: 100vh;
         float: right;
     }

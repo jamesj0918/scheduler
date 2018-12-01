@@ -21,7 +21,7 @@
                         <div id="itemRightInner">
                             <div id="timeTableOuter">
                                 <div id="timeTable">
-                                    <div v-for="time in subject.subject.timetable" style="font-size: 12px;" >
+                                    <div v-for="time in subject.subject.timetable" style="font-size: 11px;" >
                                         {{time.day}}{{time.start.slice(0,5)}}~{{time.end.slice(0,5)}}
                                     </div>
                                 </div>
@@ -56,11 +56,11 @@
             },
             deleteClass(index){
                 console.log(this.add_subjects[index]);
-                this.$store.dispatch('DELETE_ADD_CLASS',this.add_subjects[index]);
                 const remove_class = {
                     class_id : this.add_subjects[index].subject.title,
-                }
+                };
                 this.$bus.$emit('removeAddClass',remove_class);
+                this.getClass();
             }
         }
     }
@@ -107,7 +107,7 @@
 
     #itemTitle{
         text-align: left;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: bold;
     }
     .itemInfo{

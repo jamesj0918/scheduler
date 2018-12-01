@@ -34,7 +34,12 @@
     #addClass{
         display: inline-block;
         width: 90%;
+        padding-top: 20px;
         margin: auto;
-        height: 50vh;
+        height: 40vh;
+        overflow-y: scroll;
+    }
+    ::-webkit-scrollbar {
+        display: none;
     }
 </style>

@@ -18,6 +18,7 @@ const mutations = {
             return element.subject.code == subject.subject.code;
         });
         state.add_time_table.splice(found_index,1);
+        console.log(state.add_time_table);
     }
 };
 const actions = {

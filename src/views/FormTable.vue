@@ -4,7 +4,8 @@
             <sui-tab
                     id="tab"
                     @change="handleChange"
-                    :active-index="activeIndex">
+                    :active-index="activeIndex"
+                    >
                 <sui-tab-pane
                         @click="link_result()"
                         icon="search grey"
@@ -126,7 +127,7 @@
         width: 5px;
     }
     ::-webkit-scrollbar-track {
-        background-color: white;
+        display: none;
         border-radius: 10px;
     }
     /* Handle */
