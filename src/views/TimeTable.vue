@@ -21,7 +21,7 @@
                                 <div
                                         id="cellContent"
                                         v-if="timeTableLength(day_index,time_index)"
-                                        v-bind:style="{height: time_table[day_index][time_index].long+'vh', margin: 0}"
+                                        v-bind:style="{height: time_table[day_index][time_index].long + 'vh', margin: 0}"
                                         :class="{fill: time_table[day_index][time_index].fill, empty: time_table[day_index][time_index]===0}">
                                     <div
                                             v-if="add_subject.length !== 0"
@@ -319,7 +319,7 @@
 
                     this.time_table[day][start].fill = true;
                     this.time_table[day][start].class_id = add_class.title;
-                    this.time_table[day][start].long = (end - start + 1) * 2.5;
+                    this.time_table[day][start].long = (end - start + 1) * 2.49;
                     this.time_table[day][start].classroom = add_class.classroom;
 
                     for (let k = start + 1; k <= end; k++) {
