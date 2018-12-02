@@ -1,12 +1,8 @@
 <template>
     <div id = "schedulerWrap">
         <div id="timeTableOuter">
-
                 <time-table :time_table_id="time_table_id" id="timeTable" :bu="bus"></time-table>
-
         </div>
-
-
     </div>
 </template>
 
@@ -40,9 +36,6 @@
 
     #schedulerWrap{
         display: inline-block;
-
-
-
     }
 
     #timeTableOuter{

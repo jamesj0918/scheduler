@@ -10,7 +10,7 @@
                             </div>
 
                             <div class="itemInfo" v-if="subject.subject.classroom">
-                                {{subject.subject.professor}},{{subject.subject.classroom}}
+                                {{subject.subject.professor}}, {{subject.subject.classroom}}, {{subject.subject.point}}학점
                             </div>
                             <div class="itemInfo" v-else>온라인</div>
                         </div>

@@ -1,21 +1,14 @@
 <template>
-    <div id="subjectListWrap">
-        <div id="title">
-
-            <h4>
-                {{category}} > {{subcategory}} {{count}}개의 강의
-                <i
-                    style="cursor: pointer"
-                    @click="link_previous()"
-                    class="angle left large grey icon">
-                </i>
-            </h4>
+    <div>
+        <div id="inputFormWrap">
+            <div id="inputForm">
+                <input v-model="search_content"/>
+                <i class="grey large search icon" @click="search"></i>
+            </div>
         </div>
-        <div id="subjectListContentWrap">
-            <hr style="margin-top: 10px; border-top: 1px solid darkgray;">
-            <div v-if="load" >
-                <div v-for="(subject, key) in subjects" :key="key" id="itemWrap">
-
+        <div id="searchResultWrap">
+            <div >
+                <div v-for="(subject, key) in search_result" :key = key  id="itemWrap">
                     <div class="item" >
                         <div id="categoryLeft">
                             <div class="title">
@@ -43,62 +36,47 @@
                     <hr/>
                 </div>
             </div>
-            <div v-else>
-                <div style="display: inline-block; height: 100%;" class="ui active inline loader"></div>
-            </div>
+
         </div>
     </div>
-
 </template>
 
 <script>
     import axios from 'axios'
-
     export default {
-        name: "SubjectList",
+        name: "SearchTab",
         data(){
             return{
-                category: this.$route.params.category,
-                subcategory: this.$route.params.subcategory,
-                count: 0,
-                subjects: [],
-                load : false,
-                answer: '불러오는 중...',
-                bottom: 0,
-                page: 1,
-
+                search_content: '',
+                search_result: [],
+                search_load: false,
+                page: 0,
             }
         },
-        created() {
-            window.addEventListener('scroll', () => {
-                this.bottom = this.bottomVisible();
-            });
-            this.getSubjectList(this.page);
-        },
-        methods:{
-            link_previous(){
-                this.$router.go(-1);
+        methods: {
+            search(){
+                this.search_result=[];
+                this.page=1;
+                this.getData(this.page);
+                console.log("serach");
+
+            },
+            getData(page){
+                axios.get('search/?search='+this.search_content+'&page='+page)
+                    .then((response)=>{
+                        console.log(response);
+                        for(let i=0;i<response.data.results.length;i++){
+                            this.search_result.push(response.data.results[i]);
+                        }
+                        if(this.bottomVisible()) {
+                            this.page++;
+                            this.getData(this.page);
+                        }
+                    })
             },
             addClass(object){
                 this.$store.dispatch('ADD_CLASS', object);
                 this.$bus.$emit('getAddClass', object);
-            },
-            getSubjectList(page){
-                const  search_category = this.category.replace("_","/").replace("_","/");
-                let search_subcategory = this.subcategory.replace("_","/").replace("_","/");
-                axios.get('search/?category='+search_category+'&subcategory='+search_subcategory+'&page='+page).
-                then((response)=>{
-
-                    this.count = response.data.count;
-                    this.load = true;
-                    for(let i=0;i<response.data.results.length;i++){
-                        this.subjects.push(response.data.results[i]);
-                    }
-                    if(this.bottomVisible()) {
-                        this.page++;
-                        this.getSubjectList(this.page);
-                    }
-                })
             },
             bottomVisible() {
                 var scrollY = window.pageYOffset;
@@ -107,13 +85,12 @@
                 var bottomOfPage = visible + scrollY >= pageHeight;
                 return bottomOfPage || pageHeight < visible;
             },
-
         },//methods
         watch: {
             bottom: function(bottom) {
                 if(bottom) {
                     this.page++;
-                    this.getSubjectList(this.page);
+                    this.getData(this.page);
                 }
             }
         },
@@ -125,13 +102,44 @@
         margin: 0;
         padding: 0;
     }
-    #subjectListWrap{
-        padding-bottom: 0px;
+
+    #inputFormWrap{
+        padding-top: 20px;
     }
-    #title{
-        padding-top: 10px;
+    #inputForm{
+
+        border-radius: 15px;
+        height: 30px;
+        width: 90%;
+        margin: auto;
+        background-color: rgb(244,244,244);
+        justify-content:center;
+        align-items:center;
+    }
+    #inputForm input{
+        background: none;
+        display: flex;
+        border-style: none;
+        width: 80%;
+        float: left;
+        height: 30px;
         padding-left: 20px;
-        text-align: left;
+        outline-style: none;
+    }
+    #inputForm i{
+        width: 15%;
+        float: right;
+        height: 30px;
+        display: flex;
+        justify-content:center;
+        align-items:center;
+    }
+    #searchResultWrap{
+        display: inline-block;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 30vh ;
     }
 
     .categoryRight{
@@ -208,7 +216,6 @@
         display: table-cell;
         vertical-align: middle;
     }
-
 
 
 </style>

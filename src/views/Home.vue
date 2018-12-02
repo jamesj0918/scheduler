@@ -43,7 +43,6 @@
     }
     #searchForm{
         display: inline-block;
-
         width: 60%;
         height: 100vh;
         float: right;

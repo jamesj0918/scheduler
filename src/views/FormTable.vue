@@ -10,19 +10,7 @@
                         @click="link_result()"
                         icon="search grey"
                         title="">
-                    <div>
-                        <div id="inputFormWrap">
-                            <div id="inputForm">
-                                <input>
-                                <i class="grey large search icon"></i>
-                            </div>
-                        </div>
-                        <div id="searchResultWrap">
-                            <ul>
-
-                            </ul>
-                        </div>
-                    </div>
+                        <search-tab id="searchTab"></search-tab>
                 </sui-tab-pane>
                 <sui-tab-pane
                         icon="tags grey"
@@ -37,8 +25,12 @@
 
 <script>
     import axios from 'axios'
+    import SearchTab from './SearchTab'
     export default {
         name: 'FormTable',
+        components:{
+            'search-tab': SearchTab,
+          },
         data: () => ({
             table: {
                 inside: null,
@@ -82,44 +74,6 @@
         padding-top: 10%;
     }
 
-    #inputFormWrap{
-        padding-top: 20px;
-    }
-    #inputForm{
-
-        border-radius: 15px;
-        height: 30px;
-        width: 90%;
-        margin: auto;
-        background-color: rgb(244,244,244);
-        justify-content:center;
-        align-items:center;
-    }
-    #inputForm input{
-        background: none;
-        display: flex;
-        border-style: none;
-        width: 80%;
-        float: left;
-        height: 30px;
-        padding-left: 20px;
-        outline-style: none;
-    }
-    #inputForm i{
-        width: 15%;
-        float: right;
-        height: 30px;
-        display: flex;
-        justify-content:center;
-        align-items:center;
-    }
-    #searchResultWrap{
-        display: inline-block;
-        width: 100%;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        height: 30vh ;
-    }
     #routerWrap{
         height: 40vh;
     }
@@ -141,4 +95,8 @@
         overflow-y: scroll;
     }
 
+    #searchTab{
+        height: 40vh;
+        overflow-y: scroll;
+    }
 </style>
